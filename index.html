@@ -6,8 +6,12 @@
     <link href='style.css' rel='stylesheet' type='text/css'>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script>
+        var m_names = new Array("January", "February", "March", 
+        "April", "May", "June", "July", "August", "September", 
+        "October", "November", "December");
 
-        <script>
+        var timeStamps = [];
 
         function run () {
           $(document).ready(function(){
@@ -15,15 +19,52 @@
             $p.text('');
             var index = streams.home.length - 1;
             while(index >= 0){
+              // figure out if a timestamp for this tweet has already been created or not, if it hasn't then store it in the array for next time
+              if (timeStamps[index])
+                var time = timeStamps[index];
+              else {
+                var time = getTime();
+                timeStamps[index] = time;
+              }
               var tweet = streams.home[index];
+             
               var $tweet = $('<div></div>');
-              $tweet.text('@' + tweet.user + ': ' + tweet.message);
+              var $tweet2 = $('<h1></h1>');
+              $tweet2.text(time);
+              $tweet.html('<br>@' + tweet.user + '<br>' + tweet.message);
               $tweet.appendTo($p);
+              $tweet2.appendTo($p);
+              
               index -= 1;
             }
         });
       }
 
+      function getTime() {
+        var d = new Date();
+        // get month, day, and year
+        var curr_date = d.getDate();
+        var curr_month = d.getMonth();
+        var curr_year = d.getFullYear();
+        // get hours and minutes
+        var a_p = "";
+        var d = new Date();
+        var curr_hour = d.getHours();
+        if (curr_hour < 12) 
+          a_p = "AM";
+        else
+          a_p = "PM";
+        if (curr_hour == 0)
+          curr_hour = 12;
+        if (curr_hour > 12)
+          curr_hour = curr_hour - 12;
+        var curr_min = d.getMinutes();
+        curr_min = curr_min + "";
+        if (curr_min.length == 1)
+          curr_min = "0" + curr_min;
+        return (curr_hour + ":" + curr_min + " " + a_p + " - " + curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+      }
+      // dispaly tweets when page is first loaded
       run();
 
 
@@ -31,6 +72,8 @@
   </head>
   <body>
   <a href="#" class="push_button blue" onclick="run()">Get New Tweets</a>
-  <p></p>
+  <p>
+  </p>
+  
   </body>
 </html>
