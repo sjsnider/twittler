@@ -8,6 +8,15 @@ body {
 	margin: 0 auto;
 }
 
+h1 { 
+  	font-family: Gill Sans, Verdana;
+	font-size: 11px;
+	line-height: 14px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: bold;
+}
+
 .push_button {
 	position: relative;
 	width:220px;
