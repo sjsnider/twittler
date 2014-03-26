@@ -29,11 +29,15 @@
               var tweet = streams.home[index];
              
               var $tweet = $('<div></div>');
-              var $tweet2 = $('<h1></h1>');
-              $tweet2.text(time);
-              $tweet.html('<br>@' + tweet.user + '<br>' + tweet.message);
+              var $tweet2 = $('<h2></h2>');
+              var $tweet3 = $('<h1></h1>');
+              
+              $tweet.html('<br><a href="#">@' + tweet.user + '</a>');
+              $tweet2.text(tweet.message);
+              $tweet3.text(time);
               $tweet.appendTo($p);
               $tweet2.appendTo($p);
+              $tweet3.appendTo($p);
               
               index -= 1;
             }
