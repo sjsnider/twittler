@@ -13,8 +13,13 @@
 
         var timeStamps = [];
 
-        function run () {
+        function run (user) {
           $(document).ready(function(){
+            // determines if we're only displaying tweets for one user
+            if (typeof user == 'undefined')
+              var noUser = true;
+            else
+              var noUser = false;
             var $p = $('p');
             $p.text('');
             var index = streams.home.length - 1;
@@ -27,22 +32,25 @@
                 timeStamps[index] = time;
               }
               var tweet = streams.home[index];
-             
-              var $tweet = $('<div></div>');
-              var $tweet2 = $('<h2></h2>');
-              var $tweet3 = $('<h1></h1>');
+
+              // everything gets displayed if we're not on a user page, if we are on a user page it only displays if it's a tweet from a specified user
+              if (noUser || user == tweet.user) {
+                var $tweet = $('<div></div>');
+                var $tweet2 = $('<h2></h2>');
+                var $tweet3 = $('<h1></h1>');
               
-              $tweet.html('<br><a href="#">@' + tweet.user + '</a>');
-              $tweet2.text(tweet.message);
-              $tweet3.text(time);
-              $tweet.appendTo($p);
-              $tweet2.appendTo($p);
-              $tweet3.appendTo($p);
-              
+                // passing the user name with the onclick handler so when someone clicks on the username it will display that person's timeline
+                $tweet.html('<br><a href="#" onclick="test(\'' + tweet.user + '\')">@' + tweet.user + '</a>');
+                $tweet2.text(tweet.message);
+                $tweet3.text(time);
+                $tweet.appendTo($p);
+                $tweet2.appendTo($p);
+                $tweet3.appendTo($p);
+              }
               index -= 1;
             }
-        });
-      }
+          });
+        }
 
       function getTime() {
         var d = new Date();
@@ -67,6 +75,10 @@
         if (curr_min.length == 1)
           curr_min = "0" + curr_min;
         return (curr_hour + ":" + curr_min + " " + a_p + " - " + curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+      }
+      function test(user){
+        // calls the run function sending the user name so it will only display that person's tweets
+        run(user);
       }
       // dispaly tweets when page is first loaded
       run();
